@@ -1,0 +1,205 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum DashboardStatus {
+  active
+  archived
+  draft
+}
+
+model Enterprise {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+
+  users       EnterpriseUser[]
+  dashboards  Dashboard[]
+  groups      Group[]
+  roles       Role[]
+  permissions Permission[]
+  sessions    Session[]
+}
+
+model User {
+  id              String    @id @default(cuid())
+  name            String
+  email           String    @unique
+  password        String
+  isActive        Boolean   @default(true)
+  lastLogin       DateTime?
+  isEmailVerified Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+
+  enterprises EnterpriseUser[] // novo relacionamento N:N com EnterpriseUser
+}
+
+model EnterpriseUser {
+  userId       String
+  enterpriseId String
+
+  user       User       @relation(fields: [userId], references: [id])
+  enterprise Enterprise @relation(fields: [enterpriseId], references: [id])
+
+  isAdmin  Boolean  @default(false)
+  joinedAt DateTime @default(now())
+
+  groups      GroupUser[]
+  roles       RoleUser[]
+  permissions PermissionUser[]
+  sessions    Session[]
+  auditLogs   AuditLog[]
+
+  @@id([userId, enterpriseId])
+}
+
+model Dashboard {
+  id         String          @id @default(cuid())
+  externalId String          @unique
+  title      String
+  status     DashboardStatus
+  createdAt  DateTime        @default(now())
+
+  enterpriseId String
+  enterprise   Enterprise @relation(fields: [enterpriseId], references: [id])
+
+  groupLinks GroupDashbord[]
+}
+
+model Group {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+
+  enterpriseId String
+  enterprise   Enterprise @relation(fields: [enterpriseId], references: [id])
+
+  users      GroupUser[]
+  dashboards GroupDashbord[]
+}
+
+model GroupUser {
+  groupId                    String
+  enterpriseUserUserId       String
+  enterpriseUserEnterpriseId String
+
+  group          Group          @relation(fields: [groupId], references: [id])
+  enterpriseUser EnterpriseUser @relation(fields: [enterpriseUserUserId, enterpriseUserEnterpriseId], references: [userId, enterpriseId])
+
+  joinedAt DateTime @default(now())
+
+  @@id([groupId, enterpriseUserUserId, enterpriseUserEnterpriseId])
+}
+
+model GroupDashbord {
+  groupId    String
+  dashbordId String
+
+  group    Group     @relation(fields: [groupId], references: [id])
+  dashbord Dashboard @relation(fields: [dashbordId], references: [id])
+
+  linkedAt DateTime @default(now())
+
+  @@id([groupId, dashbordId])
+}
+
+model Role {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  createdAt   DateTime @default(now())
+
+  enterpriseId String
+  enterprise   Enterprise @relation(fields: [enterpriseId], references: [id])
+
+  users       RoleUser[]
+  permissions PermissionRole[]
+
+  @@unique([enterpriseId, name])
+}
+
+model RoleUser {
+  roleId                     String
+  enterpriseUserUserId       String
+  enterpriseUserEnterpriseId String
+
+  role           Role           @relation(fields: [roleId], references: [id])
+  enterpriseUser EnterpriseUser @relation(fields: [enterpriseUserUserId, enterpriseUserEnterpriseId], references: [userId, enterpriseId])
+
+  joinedAt DateTime @default(now())
+
+  @@id([roleId, enterpriseUserUserId, enterpriseUserEnterpriseId])
+}
+
+model Permission {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  createdAt   DateTime @default(now())
+
+  enterpriseId String
+  enterprise   Enterprise @relation(fields: [enterpriseId], references: [id])
+
+  users PermissionUser[]
+  roles PermissionRole[]
+
+  @@unique([enterpriseId, name])
+}
+
+model PermissionUser {
+  permissionId               String
+  enterpriseUserUserId       String
+  enterpriseUserEnterpriseId String
+
+  permission     Permission     @relation(fields: [permissionId], references: [id])
+  enterpriseUser EnterpriseUser @relation(fields: [enterpriseUserUserId, enterpriseUserEnterpriseId], references: [userId, enterpriseId])
+
+  joinedAt DateTime @default(now())
+
+  @@id([permissionId, enterpriseUserUserId, enterpriseUserEnterpriseId])
+}
+
+model PermissionRole {
+  permissionId String
+  roleId       String
+
+  permission Permission @relation(fields: [permissionId], references: [id])
+  role       Role       @relation(fields: [roleId], references: [id])
+
+  joinedAt DateTime @default(now())
+
+  @@id([permissionId, roleId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  enterpriseId String
+  refreshToken String   @unique
+  ipAddress    String
+  userAgent    String
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  isRevoked    Boolean
+
+  enterpriseUser EnterpriseUser @relation(fields: [userId, enterpriseId], references: [userId, enterpriseId])
+  Enterprise     Enterprise     @relation(fields: [enterpriseId], references: [id])
+}
+
+model AuditLog {
+  id           String   @id @default(cuid())
+  action       String
+  entityType   String
+  entityId     String
+  userId       String
+  enterpriseId String
+  timestamp    DateTime @default(now())
+  details      Json?
+
+  enterpriseUser EnterpriseUser @relation(fields: [userId, enterpriseId], references: [userId, enterpriseId])
+}
