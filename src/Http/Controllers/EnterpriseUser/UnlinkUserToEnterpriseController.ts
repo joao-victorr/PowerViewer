@@ -1,13 +1,14 @@
-import { LinkUserToEnterpriseService } from "@Application/UseCases/EnterpriseUser/LinkUserToEnterpriseService";
+
+import { UnlinkUserToEnterpriseService } from "@Application/UseCases/EnterpriseUser/UnlinkUserToEnterpriseService";
 import type { LinkEnterpriseUserDTO, } from "@DTOs/EnterpriseUserDTO";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 
-export class LinkUserToEnterpriseController {
+export class UnlinkUserToEnterpriseController {
   async handle(request: FastifyRequest, reply: FastifyReply) {
     const { userId, enterpriseId } = request.body as LinkEnterpriseUserDTO;
 
-    const response = await new LinkUserToEnterpriseService().execute({userId, enterpriseId});
+    const response = await new UnlinkUserToEnterpriseService().execute({userId, enterpriseId});
 
     if (response instanceof Error) {
       return reply.code(400).send({ error: response.message });

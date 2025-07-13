@@ -23,3 +23,22 @@ export const GetUserByIdParamsSchema = z.object({
 })
 
 export type GetUserByIdParamsDTO = z.infer<typeof GetUserByIdParamsSchema>;
+
+
+// const user: Prisma.PrismaPromise<{
+//     id: string;
+//     name: string;
+//     email: string;
+//     isActive: boolean;
+//     createdAt: Date;
+// }[]>
+
+export const GetUsersReplySchema = z.object({
+  id: z.string().cuid(),
+  name: z.string(),
+  email: z.string().email(),
+  createdAt: z.date(),
+  isActive: z.boolean(),
+})
+
+export type GetUsersReplyDTO = z.infer<typeof GetUsersReplySchema>

@@ -46,7 +46,7 @@ model EnterpriseUser {
   user       User       @relation(fields: [userId], references: [id])
   enterprise Enterprise @relation(fields: [enterpriseId], references: [id])
 
-  isAdmin  Boolean  @default(false)
+  isOwner  Boolean  @default(false)
   joinedAt DateTime @default(now())
 
   groups      GroupUser[]

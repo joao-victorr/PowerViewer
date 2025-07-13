@@ -36,6 +36,18 @@ server.register(fastifySwagger, {
         url: 'http://localhost:3000',
       },
     ],
+
+    components: {
+      securitySchemes: {
+        // Exemplo de esquema para Bearer Token (o mais comum para JWT)
+        bearerAuth: { // <-- Este é o nome que você usará no 'security' das rotas
+          type: 'http',
+          scheme: 'Bearer',
+          bearerFormat: 'JWT', // Opcional, mas útil para documentação
+          description: 'Autenticação com token JWT. Cole o token completo aqui (ex: "Bearer SEU_TOKEN_AQUI")',
+        }
+      }
+    },
   },
   transform: jsonSchemaTransform
 })

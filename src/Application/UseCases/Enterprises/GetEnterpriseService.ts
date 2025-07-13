@@ -1,10 +1,10 @@
 import { repo } from "@Databases/PrismaClient";
-import type { EnterpriseReply } from "@DTOs/EnterpriseDTO";
+import type { EnterpriseReplyDTO } from "@DTOs/EnterpriseDTO";
 
 
 
-export class GetEnterpriseService {
-  async execute(_enterpriseId: string): Promise< EnterpriseReply[]| Error> {
+export class GetEnterprisesService {
+  async execute(): Promise< EnterpriseReplyDTO[]| Error> {
     
     const enterprise = await repo.enterprise.findMany({
       select: {

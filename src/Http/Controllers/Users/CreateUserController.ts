@@ -6,13 +6,8 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 
 
 export class CreateUserController {
-  async handle(
-    request: FastifyRequest<{
-      Body: CreateUsersDTO;
-    }>,
-    reply: FastifyReply
-  ) {
-    const { name, email, password } = request.body;
+  async handle(request: FastifyRequest, reply: FastifyReply) {
+    const { name, email, password } = request.body as CreateUsersDTO;
 
     const createUserService = new CreateUserService();
 

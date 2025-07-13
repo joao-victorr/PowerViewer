@@ -5,13 +5,8 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 
 
 export class GetEnterpriseByIdController {
-  async handle(
-    request: FastifyRequest<{
-      Params: GetEnterpriseByIdParamsDTO;
-    }>,
-    reply: FastifyReply
-  ) {
-    const { id } = request.params;
+  async handle(request: FastifyRequest, reply: FastifyReply) {
+    const { id } = request.params as GetEnterpriseByIdParamsDTO;
 
     const response = await new GetEnterpriseByIdService().execute(id);
 

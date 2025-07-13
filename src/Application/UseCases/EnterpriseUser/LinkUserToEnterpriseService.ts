@@ -39,6 +39,6 @@ export class LinkUserToEnterpriseService {
       return Error("Error linking user to enterprise");
     }
 
-    return {userId: enterpriseUser.userId, enterpriseId: enterpriseUser.enterpriseId};
+    return null;
   }
 }

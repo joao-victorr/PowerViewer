@@ -4,10 +4,10 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 
 export class CreateEnterpriseController {
   async handle(
-    request: FastifyRequest<{ Body: CreateEnterpriseDTO }>,
+    request: FastifyRequest,
     reply: FastifyReply
   ) {
-    const { name } = request.body;
+    const { name } = request.body as CreateEnterpriseDTO;
 
     const createEnterpriseServices = new CreateEnterpriseServices();
     const result = await createEnterpriseServices.excute({ name });
