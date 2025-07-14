@@ -1,6 +1,6 @@
 import { repo } from "@Databases/PrismaClient";
 import type { GetUserByIdParamsDTO } from "@DTOs/UsersDTO";
-import bcrypt from "bcrypt";
+import { hashPassword } from "@Infrastructure/Security/EncryptionUtils";
 
 
 
@@ -24,13 +24,13 @@ export class CreateUserService {
       return Error("Email already exists");
     }
     
-    const hashPassword = await bcrypt.hash(password, 10);
+    const passwordHash = await hashPassword(password);
 
     const user = await repo.user.create({
       data: {
         name,
         email,
-        password: hashPassword,
+        password: passwordHash,
       },
     });
 

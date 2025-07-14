@@ -1,4 +1,4 @@
-import { GetEnterpriseByIdService } from "@Application/UseCases/Enterprises/GetEnterpriseByIdService";
+import { GetEnterpriseByIdService } from "@Application/Services/Enterprises/GetEnterpriseByIdService";
 import type { GetEnterpriseByIdParamsDTO } from "@DTOs/EnterpriseDTO";
 import type { FastifyReply, FastifyRequest } from "fastify";
 

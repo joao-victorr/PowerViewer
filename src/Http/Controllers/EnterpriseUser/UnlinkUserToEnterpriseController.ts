@@ -1,5 +1,5 @@
 
-import { UnlinkUserToEnterpriseService } from "@Application/UseCases/EnterpriseUser/UnlinkUserToEnterpriseService";
+import { UnlinkUserToEnterpriseService } from "@Application/Services/EnterpriseUser/UnlinkUserToEnterpriseService";
 import type { LinkEnterpriseUserDTO, } from "@DTOs/EnterpriseUserDTO";
 import type { FastifyReply, FastifyRequest } from "fastify";
 

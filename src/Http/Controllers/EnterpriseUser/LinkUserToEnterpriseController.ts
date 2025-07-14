@@ -1,4 +1,4 @@
-import { LinkUserToEnterpriseService } from "@Application/UseCases/EnterpriseUser/LinkUserToEnterpriseService";
+import { LinkUserToEnterpriseService } from "@Application/Services/EnterpriseUser/LinkUserToEnterpriseService";
 import type { LinkEnterpriseUserDTO, } from "@DTOs/EnterpriseUserDTO";
 import type { FastifyReply, FastifyRequest } from "fastify";
 

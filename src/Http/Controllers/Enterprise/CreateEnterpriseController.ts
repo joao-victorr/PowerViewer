@@ -1,4 +1,4 @@
-import { CreateEnterpriseServices } from "@Application/UseCases/Enterprises/CreateEntepriseServices";
+import { CreateEnterpriseServices } from "@Application/Services/Enterprises/CreateEntepriseServices";
 import type { CreateEnterpriseDTO } from "@DTOs/EnterpriseDTO";
 import type { FastifyReply, FastifyRequest } from "fastify";
 

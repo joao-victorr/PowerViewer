@@ -3,13 +3,10 @@ import type { EnterpriseReplyDTO } from "@DTOs/EnterpriseDTO";
 
 
 
-export class GetEnterpriseByIdService {
-  async execute(enterpriseId: string): Promise< EnterpriseReplyDTO| Error> {
+export class GetEnterprisesService {
+  async execute(): Promise< EnterpriseReplyDTO[]| Error> {
     
-    const enterprise = await repo.enterprise.findUnique({
-      where: {
-        id: enterpriseId,
-      },
+    const enterprise = await repo.enterprise.findMany({
       select: {
         id: true,
         name: true,
@@ -17,19 +14,13 @@ export class GetEnterpriseByIdService {
         _count: {
             select: {
               users: true,
-              dashboards: true,
               groups: true,
               permissions: true,
               roles: true
             }
           }
       },
-      
     })
-
-    if (!enterprise) {
-      return Error("Enterprise not found");
-    }
 
     return enterprise;
   }

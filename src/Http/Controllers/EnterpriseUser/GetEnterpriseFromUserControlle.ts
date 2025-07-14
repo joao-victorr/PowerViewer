@@ -1,5 +1,5 @@
 
-import { GetEnterpriseFromUserService } from "@Application/UseCases/EnterpriseUser/GetEnterpriseFromUserService";
+import { GetEnterpriseFromUserService } from "@Application/Services/EnterpriseUser/GetEnterpriseFromUserService";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 

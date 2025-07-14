@@ -18,12 +18,24 @@ model Enterprise {
   name      String
   createdAt DateTime @default(now())
 
-  users       EnterpriseUser[]
-  dashboards  Dashboard[]
-  groups      Group[]
-  roles       Role[]
-  permissions Permission[]
-  sessions    Session[]
+  // Credenciais do Usuário Master do Power BI para esta Empresa
+  // Estes campos são opcionais, pois uma Enterprise pode não ter integração com Power BI
+  pbMasterEmail             String? // Email do usuário master do Power BI para esta empresa
+  pbMasterPasswordEncrypted String? // Senha do usuário master (CRIPTOGRAFADA com AES, não hash)
+  pbClientId                String? // Client ID do app Azure AD
+  pbClientSecretEncrypted   String? // Client Secret do app Azure AD (CRIPTOGRAFADO com AES)
+  pbTenantId                String? // Tenant ID do Azure AD
+
+  // Access Token do Azure AD em cache para o Usuário Master
+  pbAccessToken          String?
+  pbAccessTokenExpiresAt DateTime?
+
+  users                EnterpriseUser[]
+  groups               Group[]
+  roles                Role[]
+  permissions          Permission[]
+  sessions             Session[]
+  powerBIReportConfigs PowerBIReportConfig[]
 }
 
 model User {
@@ -58,17 +70,24 @@ model EnterpriseUser {
   @@id([userId, enterpriseId])
 }
 
-model Dashboard {
-  id         String          @id @default(cuid())
-  externalId String          @unique
-  title      String
-  status     DashboardStatus
-  createdAt  DateTime        @default(now())
-
+model PowerBIReportConfig {
+  id           String     @id @default(cuid())
   enterpriseId String
   enterprise   Enterprise @relation(fields: [enterpriseId], references: [id])
 
-  groupLinks GroupDashbord[]
+  powerBIGroupId    String // ID do Workspace (Group ID) no Power BI
+  powerBIGroupName  String? // Nome do Workspace (para exibição)
+  powerBIReportId   String // ID do Relatório no Power BI
+  powerBIReportName String? // Nome do Relatório (para exibição)
+
+  // Embed Token do Power BI em cache para este relatório específico
+  pbEmbedToken          String?
+  pbEmbedTokenExpiresAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([enterpriseId, powerBIGroupId, powerBIReportId]) // Garante que um relatório em um workspace é único por empresa
 }
 
 model Group {
@@ -79,8 +98,7 @@ model Group {
   enterpriseId String
   enterprise   Enterprise @relation(fields: [enterpriseId], references: [id])
 
-  users      GroupUser[]
-  dashboards GroupDashbord[]
+  users GroupUser[]
 }
 
 model GroupUser {
@@ -94,18 +112,6 @@ model GroupUser {
   joinedAt DateTime @default(now())
 
   @@id([groupId, enterpriseUserUserId, enterpriseUserEnterpriseId])
-}
-
-model GroupDashbord {
-  groupId    String
-  dashbordId String
-
-  group    Group     @relation(fields: [groupId], references: [id])
-  dashbord Dashboard @relation(fields: [dashbordId], references: [id])
-
-  linkedAt DateTime @default(now())
-
-  @@id([groupId, dashbordId])
 }
 
 model Role {

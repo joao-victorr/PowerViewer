@@ -1,5 +1,6 @@
 // import { Routes } from '@Routes/MainRoutes';
 
+import { ErrorsHandler } from 'Domain/Errors/ErrorsHandler';
 import { Routes } from 'Http/MainRoutes';
 import { fastifySwagger } from '@fastify/swagger';
 import { fastifySwaggerUi } from '@fastify/swagger-ui';
@@ -55,6 +56,9 @@ server.register(fastifySwagger, {
 server.register(fastifySwaggerUi, {
   routePrefix: '/docs'
 })
+
+// Registrar o manipulador de erros global
+server.setErrorHandler(ErrorsHandler);
 
 
 Routes(server);

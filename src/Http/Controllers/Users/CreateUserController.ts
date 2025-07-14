@@ -1,6 +1,6 @@
 
+import { CreateUserService } from "@Application/Services/Users/CreateUserService";
 import type { CreateUsersDTO } from "@DTOs/UsersDTO";
-import { CreateUserService } from "@UseCases/Users/CreateUserService";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 

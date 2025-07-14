@@ -7,7 +7,6 @@ export const GetEnterpriseReplySchema = z.object({
   createdAt: z.date(), // ou z.coerce.date() se você quiser transformar
   _count: z.object({
     users: z.number(),
-    dashboards: z.number(),
     groups: z.number(),
     permissions: z.number(),
     roles: z.number(),

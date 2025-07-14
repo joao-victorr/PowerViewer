@@ -1,4 +1,4 @@
-import { GetUsersFromEnterpriseServices } from "@Application/UseCases/EnterpriseUser/GetUsersFromEnterpriseServices";
+import { GetUsersFromEnterpriseServices } from "@Application/Services/EnterpriseUser/GetUsersFromEnterpriseServices";
 import type { GetUsersFromEnterpriseResponseDTO } from "@DTOs/EnterpriseUserDTO";
 import type { FastifyReply, FastifyRequest } from "fastify";
 

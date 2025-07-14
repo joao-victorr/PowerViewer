@@ -32,11 +32,12 @@
     "baseUrl": "./src",                                  /* Specify the base directory to resolve non-relative module names. */
     "paths": {
       "@Application/*": ["Application/*"],
-      "@UseCases/*": ["Application/UseCases/*"],          // Camada de UseCases/Serviços
-      "@Domain/*": ["Domain/*"],                  // Camada de Entidades e Repositórios  // Domínio User
+      "@UseCases/*": ["Application/Services/*"],          // Camada de UseCases/Serviços
+      "@Domain/*": ["src/Domain/*"],                  // Camada de Entidades e Repositórios  // Domínio User
       "@Controllers/*": ["Http/Controllers/*"],    // Controllers REST / Handlers
       "@Routes/*": ["Http/Routes/*"],               // Rotas da API
-      "@Infrastructure/*": ["Infrastructure/*"],      // Banco, APIs externas, etc
+      "@Infrastructure/*": ["Infrastructure/*"],
+      "@APIs/*": ["Infrastructure/APIs*"],      // Banco, APIs externas, etc
       "@Databases/*": ["Infrastructure/Databases/*"],   //Bancos
       "@Utils/*": ["Utils/*"],                       // Helpers genéricos
       "@Types/*": ["Types/*"],                       // Tipos TypeScript globais

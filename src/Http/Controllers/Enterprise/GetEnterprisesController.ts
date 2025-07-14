@@ -1,4 +1,4 @@
-import { GetEnterprisesService } from "@Application/UseCases/Enterprises/GetEnterpriseService";
+import { GetEnterprisesService } from "@Application/Services/Enterprises/GetEnterpriseService";
 import type { FastifyReply, FastifyRequest, } from "fastify";
 
 export class GetEnterprisesController {

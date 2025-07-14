@@ -1,5 +1,5 @@
+import { AuthenticateUserService } from "@Application/Services/Auth/AuthenticateUserService";
 import type { AuthenticateUserDTO } from "@DTOs/AuthDTO";
-import { AuthenticateUserService } from "@UseCases/Auth/AuthenticateUserService";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 export class AuthenticateUserController {

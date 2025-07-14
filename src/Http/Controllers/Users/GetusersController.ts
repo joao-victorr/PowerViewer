@@ -1,6 +1,6 @@
 
 
-import { GetUsersService } from "@Application/UseCases/Users/GetUsersService";
+import { GetUsersService } from "@Application/Services/Users/GetUsersService";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 export class GetusersController {
